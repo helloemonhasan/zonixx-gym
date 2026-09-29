@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZONIXX | High Performance Gym</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis for smooth scrolling -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-black': '#050505',
+                        'brand-red': '#E60000', /* Slightly deeper red for editorial feel */
+                        'brand-white': '#F4F4F5',
+                    },
+                    fontFamily: {
+                        'anton': ['Anton', 'sans-serif'],
+                        'manrope': ['Manrope', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --black: #050505;
+            --red: #E60000;
+            --white: #F4F4F5;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Brutalist Typography Utilities - Fixed Line Heights */
+        .font-brutal {
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+            line-height: 1.1; /* Prevent overlapping */
+        }
+
+        .text-clamp-hero { font-size: clamp(3.5rem, 10vw, 9rem); }
+        .text-clamp-h2 { font-size: clamp(2.5rem, 7vw, 6rem); }
+        .text-clamp-h3 { font-size: clamp(1.5rem, 3vw, 3rem); }
+
+        .text-outline-red {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--red);
+        }
+        
+        .text-outline-white {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--white);
+        }
+        
+        .text-outline-black {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--black);
+        }
+
+        /* Cinematic Image Filters */
+        .cinematic-img {
+            filter: brightness(0.6) contrast(1.2) grayscale(0.2);
+            transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .cinematic-hover:hover .cinematic-img {
+            filter: brightness(0.9) contrast(1.1) grayscale(0);
+            transform: scale(1.03);
+        }
+
+        .coach-img {
+            filter: grayscale(100%) contrast(1.2) brightness(0.8);
+            transition: all 0.5s ease;
+        }
+        
+        .coach-card:hover .coach-img {
+            filter: grayscale(0%) sepia(50%) hue-rotate(-30deg) saturate(300%) contrast(1.1) brightness(0.9);
+            transform: scale(1.02);
+        }
+
+        /* Marquee Animation */
+        .marquee-container {
+            display: flex;
+            width: 200%;
+            animation: marquee 15s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Animation utilities */
+        .gsap-hide { opacity: 0; visibility: hidden; }
+        
+        .text-mask {
+            overflow: hidden;
+            display: block; /* Switched to block to respect line-heights without manual negative margins */
+        }
+        
+        .text-mask-inner {
+            display: block;
+            transform: translateY(105%);
+        }
+
+        /* Utility for image containers */
+        .img-wrapper {
+            background-color: #1a1a1a;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-red selection:text-brand-white">
+
+    <nav class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center pointer-events-none mix-blend-difference">
+        <div class="font-brutal text-3xl text-brand-white pointer-events-auto cursor-pointer tracking-wide">ZONIXX</div>
+        <div class="hidden md:flex gap-8 font-manrope font-bold text-xs tracking-[0.2em] uppercase pointer-events-auto">
+            <a href="#training" class="hover:text-brand-red transition-colors">Training</a>
+            <a href="#coaches" class="hover:text-brand-red transition-colors">Coaches</a>
+            <a href="#about" class="hover:text-brand-red transition-colors">About</a>
+            <a href="#blog" class="hover:text-brand-red transition-colors">Blog</a>
+        </div>
+        <button class="bg-brand-red text-brand-white font-brutal text-lg px-6 py-2 uppercase hover:bg-brand-white hover:text-brand-black transition-colors pointer-events-auto shadow-lg">Join Now</button>
+    </nav>
+
+    <section class="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20">
+        <div class="absolute inset-0 w-full h-full bg-brand-black">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" 
+                 class="w-full h-full object-cover cinematic-img opacity-50 scale-105" id="hero-bg" alt="Dark Gym">
+        </div>
+
+        <div class="relative z-10 flex flex-col items-center justify-center text-center w-full px-4 max-w-6xl mx-auto">
+            <h1 class="font-brutal text-clamp-hero text-brand-white tracking-tight flex flex-col items-center w-full">
+                <span class="text-mask"><span class="text-mask-inner hero-text">PUSH YOUR LIMITS.</span></span>
+                <span class="text-mask"><span class="text-mask-inner hero-text text-brand-red">FORGE YOUR LEGACY.</span></span>
+            </h1>
+            
+            <div class="mt-8 flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
+                <p class="font-manrope text-base md:text-lg text-gray-300 gsap-fade-up opacity-0 leading-relaxed">
+                    Welcome to ZONIXX. State-of-the-art equipment, elite coaching, and a community that pushes you to be your best self. Stop making excuses and start making progress today.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 gsap-fade-up opacity-0">
+                    <a href="#start" class="bg-brand-red text-brand-white font-brutal text-xl px-8 py-4 hover:bg-brand-white hover:text-brand-black transition-colors uppercase text-center">Start Your Free Trial</a>
+                    <a href="#training" class="border border-brand-white text-brand-white font-brutal text-xl px-8 py-4 hover:bg-brand-white hover:text-brand-black transition-colors uppercase text-center">Explore Classes</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="training" class="py-24 md:py-32 px-6 md:px-12 bg-brand-black relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-end gap-8">
+                <h2 class="font-brutal text-clamp-h2 flex flex-col w-full md:w-auto">
+                    <span class="text-mask"><span class="text-mask-inner scroll-text">TRAIN</span></span>
+                    <span class="text-mask"><span class="text-mask-inner scroll-text text-brand-red">YOUR WAY</span></span>
+                </h2>
+                <p class="font-manrope text-gray-400 max-w-sm pb-2 trigger-fade text-base md:text-lg">
+                    Whether you want to build strength, burn fat, or improve your mobility, we have a program designed for your exact goals.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Training Card 1 -->
+                <div class="group relative aspect-[3/4] img-wrapper cinematic-hover cursor-pointer trigger-fade">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover cinematic-img" alt="Strength">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-8 translate-y-8 group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                        <h3 class="font-brutal text-2xl md:text-3xl mb-2 text-brand-white group-hover:text-brand-red transition-colors">Strength &<br>Conditioning</h3>
+                        <p class="font-manrope text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Build raw power and lean muscle with our heavy-lifting zones.</p>
+                    </div>
+                </div>
+                
+                <!-- Training Card 2 -->
+                <div class="group relative aspect-[3/4] img-wrapper cinematic-hover cursor-pointer trigger-fade">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover cinematic-img" alt="HIIT">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-8 translate-y-8 group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                        <h3 class="font-brutal text-2xl md:text-3xl mb-2 text-brand-white group-hover:text-brand-red transition-colors">High Intensity<br>(HIIT)</h3>
+                        <p class="font-manrope text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Torch calories and boost your endurance in fast-paced sessions.</p>
+                    </div>
+                </div>
+
+                <!-- Training Card 3 -->
+                <div class="group relative aspect-[3/4] img-wrapper cinematic-hover cursor-pointer trigger-fade">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover cinematic-img" alt="Yoga">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-8 translate-y-8 group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                        <h3 class="font-brutal text-2xl md:text-3xl mb-2 text-brand-white group-hover:text-brand-red transition-colors">Yoga &<br>Mobility</h3>
+                        <p class="font-manrope text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Improve flexibility and find your center with guided recovery.</p>
+                    </div>
+                </div>
+
+                <!-- Training Card 4 -->
+                <div class="group relative aspect-[3/4] img-wrapper cinematic-hover cursor-pointer trigger-fade">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover cinematic-img" alt="Personal Training">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-8 translate-y-8 group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                        <h3 class="font-brutal text-2xl md:text-3xl mb-2 text-brand-white group-hover:text-brand-red transition-colors">Elite<br>Coaching</h3>
+                        <p class="font-manrope text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Fast-track results with 1-on-1 custom plans and guidance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="coaches" class="py-24 md:py-32 px-6 md:px-12 bg-zinc-950">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 md:mb-24">
+                <h2 class="font-brutal text-clamp-h2 flex flex-col items-center justify-center w-full">
+                    <span class="text-mask"><span class="text-mask-inner scroll-text">MEET YOUR</span></span>
+                    <span class="text-mask"><span class="text-mask-inner scroll-text text-outline-white">MENTORS</span></span>
+                </h2>
+                <p class="font-manrope text-gray-400 mt-6 max-w-2xl mx-auto trigger-fade">
+                    You aren't in this alone. Our elite trainers are here to guide, push, and celebrate with you every step of the way.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Coach 1 -->
+                <div class="coach-card group flex flex-col gap-4 trigger-fade">
+                    <div class="aspect-[4/5] img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1567598508481-65985588ce2a?q=80&w=1374&auto=format&fit=crop" 
+                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Coach">
+                    </div>
+                    <div>
+                        <h3 class="font-brutal text-3xl md:text-4xl">MARCUS T.</h3>
+                        <p class="text-brand-red font-brutal text-lg md:text-xl tracking-wide mb-3">HEAD OF STRENGTH</p>
+                        <p class="font-manrope text-sm text-gray-400 leading-relaxed border-l-2 border-zinc-800 pl-4">"I'm here to help you lift heavier than you ever thought possible. Form first, ego last."</p>
+                    </div>
+                </div>
+
+                <!-- Coach 2 -->
+                <div class="coach-card group flex flex-col gap-4 trigger-fade">
+                    <div class="aspect-[4/5] img-wrapper md:mt-12">
+                        <img src="https://images.unsplash.com/photo-1611506109968-356bc0a41d7d?q=80&w=1374&auto=format&fit=crop" 
+                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Coach">
+                    </div>
+                    <div>
+                        <h3 class="font-brutal text-3xl md:text-4xl">SARAH L.</h3>
+                        <p class="text-brand-red font-brutal text-lg md:text-xl tracking-wide mb-3">LEAD HIIT INSTRUCTOR</p>
+                        <p class="font-manrope text-sm text-gray-400 leading-relaxed border-l-2 border-zinc-800 pl-4">"Get ready to sweat. My classes are designed to test your limits and leave you feeling invincible."</p>
+                    </div>
+                </div>
+
+                <!-- Coach 3 -->
+                <div class="coach-card group flex flex-col gap-4 trigger-fade">
+                    <div class="aspect-[4/5] img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1583468982228-19f19164aee2?q=80&w=1351&auto=format&fit=crop" 
+                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Coach">
+                    </div>
+                    <div>
+                        <h3 class="font-brutal text-3xl md:text-4xl">DAVID C.</h3>
+                        <p class="text-brand-red font-brutal text-lg md:text-xl tracking-wide mb-3">MOBILITY SPECIALIST</p>
+                        <p class="font-manrope text-sm text-gray-400 leading-relaxed border-l-2 border-zinc-800 pl-4">"True strength requires balance and recovery. Let's build a body that feels as good as it looks."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 md:py-32 bg-brand-black border-y border-zinc-900">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            <div class="order-2 lg:order-1">
+                <h2 class="font-brutal text-clamp-h2 mb-8 text-brand-white">
+                    MORE THAN <br><span class="text-brand-red">JUST A GYM.</span>
+                </h2>
+                <div class="w-16 h-1 bg-brand-red mb-8"></div>
+                <div class="flex flex-col gap-6 font-manrope text-base md:text-lg text-gray-300 leading-relaxed trigger-fade">
+                    <p>
+                        Founded in 2026, ZONIXX was built on a simple philosophy: fitness should be accessible, effective, and intimidating to no one. 
+                    </p>
+                    <p>
+                        We’ve stripped away the fluff to provide a raw, high-energy environment equipped with everything you need to succeed and nothing you don't. From absolute beginners to seasoned athletes, this is your sanctuary to grind, grow, and transform.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="order-1 lg:order-2 aspect-[4/3] w-full img-wrapper">
+                <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1469&auto=format&fit=crop" 
+                     class="w-full h-full object-cover cinematic-img scale-105" id="about-img" alt="About Gym">
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Marquee -->
+    <section class="bg-brand-red py-8 overflow-hidden">
+        <div class="marquee-container flex items-center">
+            <div class="flex items-center gap-8 md:gap-16 px-4 md:px-8 shrink-0 w-1/2 justify-around">
+                <span class="font-brutal text-3xl md:text-5xl text-brand-black">JOIN THE TRIBE</span>
+                <span class="font-brutal text-3xl md:text-5xl text-outline-black">★</span>
+                <span class="font-brutal text-3xl md:text-5xl text-brand-black">5,000+ ACTIVE MEMBERS</span>
+                <span class="font-brutal text-3xl md:text-5xl text-outline-black">★</span>
+                <span class="font-brutal text-3xl md:text-5xl text-brand-black">50+ CLASSES WEEKLY</span>
+                <span class="font-brutal text-3xl md:text-5xl text-outline-black">★</span>
+            </div>
+            <div class="flex items-center gap-8 md:gap-16 px-4 md:px-8 shrink-0 w-1/2 justify-around">
+                <span class="font-brutal text-3xl md:text-5xl text-brand-black">JOIN THE TRIBE</span>
+                <span class="font-brutal text-3xl md:text-5xl text-outline-black">★</span>
+                <span class="font-brutal text-3xl md:text-5xl text-brand-black">5,000+ ACTIVE MEMBERS</span>
+                <span class="font-brutal text-3xl md:text-5xl text-outline-black">★</span>
+                <span class="font-brutal text-3xl md:text-5xl text-brand-black">50+ CLASSES WEEKLY</span>
+                <span class="font-brutal text-3xl md:text-5xl text-outline-black">★</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="start" class="py-24 md:py-32 px-6 md:px-12 bg-zinc-950">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+            <div class="sticky top-32">
+                <h2 class="font-brutal text-clamp-h2 mb-6">
+                    YOUR JOURNEY <br><span class="text-brand-red">BEGINS HERE</span>
+                </h2>
+                <p class="font-manrope text-lg md:text-xl text-gray-400 max-w-md">No complicated sign-ups. No hidden fees. Just three simple steps to start getting results.</p>
+            </div>
+            
+            <div class="flex flex-col gap-12 md:gap-16">
+                <!-- Step 1 -->
+                <div class="flex gap-6 group trigger-fade">
+                    <div class="font-brutal text-5xl md:text-7xl text-outline-red opacity-50 group-hover:opacity-100 group-hover:text-brand-red transition-all w-20 shrink-0">01</div>
+                    <div class="pt-2">
+                        <h3 class="font-brutal text-2xl md:text-3xl mb-3">CLAIM YOUR PASS</h3>
+                        <p class="font-manrope text-gray-400 text-base md:text-lg leading-relaxed">Sign up online to grab your 7-day free trial or choose a membership tier that fits your lifestyle.</p>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex gap-6 group trigger-fade">
+                    <div class="font-brutal text-5xl md:text-7xl text-outline-red opacity-50 group-hover:opacity-100 group-hover:text-brand-red transition-all w-20 shrink-0">02</div>
+                    <div class="pt-2">
+                        <h3 class="font-brutal text-2xl md:text-3xl mb-3">MEET YOUR COACH</h3>
+                        <p class="font-manrope text-gray-400 text-base md:text-lg leading-relaxed">Come in for a complimentary fitness assessment. We’ll discuss your goals, check your baseline, and build a roadmap.</p>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex gap-6 group trigger-fade">
+                    <div class="font-brutal text-5xl md:text-7xl text-outline-red opacity-50 group-hover:opacity-100 group-hover:text-brand-red transition-all w-20 shrink-0">03</div>
+                    <div class="pt-2">
+                        <h3 class="font-brutal text-2xl md:text-3xl mb-3">PUT IN THE WORK</h3>
+                        <p class="font-manrope text-gray-400 text-base md:text-lg leading-relaxed">Hit the floor, join a class, and start transforming your life alongside a supportive community.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog" class="py-24 md:py-32 px-6 md:px-12 bg-brand-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+                <h2 class="font-brutal text-clamp-h2">
+                    FUEL YOUR <br><span class="text-outline-white">MIND & BODY</span>
+                </h2>
+                <a href="#" class="font-brutal text-xl text-brand-red hover:text-brand-white transition-colors border-b border-brand-red pb-1">VIEW ALL ARTICLES</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog Card 1 -->
+                <a href="#" class="group trigger-fade block">
+                    <div class="aspect-video img-wrapper mb-6">
+                        <img src="https://images.unsplash.com/photo-1546483875-ad9014c88eba?q=80&w=1382&auto=format&fit=crop" class="w-full h-full object-cover cinematic-img" alt="Nutrition">
+                    </div>
+                    <div class="flex items-center gap-4 text-xs font-brutal text-gray-500 mb-3 tracking-widest">
+                        <span>NUTRITION</span>
+                        <span class="w-1 h-1 bg-brand-red rounded-full"></span>
+                        <span>5 MIN READ</span>
+                    </div>
+                    <h3 class="font-brutal text-2xl md:text-3xl group-hover:text-brand-red transition-colors line-clamp-2">5 Pre-Workout Meals to Maximize Your Energy</h3>
+                </a>
+
+                <!-- Blog Card 2 -->
+                <a href="#" class="group trigger-fade block">
+                    <div class="aspect-video img-wrapper mb-6">
+                        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1469&auto=format&fit=crop" class="w-full h-full object-cover cinematic-img" alt="Recovery">
+                    </div>
+                    <div class="flex items-center gap-4 text-xs font-brutal text-gray-500 mb-3 tracking-widest">
+                        <span>RECOVERY</span>
+                        <span class="w-1 h-1 bg-brand-red rounded-full"></span>
+                        <span>4 MIN READ</span>
+                    </div>
+                    <h3 class="font-brutal text-2xl md:text-3xl group-hover:text-brand-red transition-colors line-clamp-2">Why Rest Days are Critical for Muscle Growth</h3>
+                </a>
+
+                <!-- Blog Card 3 -->
+                <a href="#" class="group trigger-fade block">
+                    <div class="aspect-video img-wrapper mb-6">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" class="w-full h-full object-cover cinematic-img" alt="Training">
+                    </div>
+                    <div class="flex items-center gap-4 text-xs font-brutal text-gray-500 mb-3 tracking-widest">
+                        <span>TRAINING</span>
+                        <span class="w-1 h-1 bg-brand-red rounded-full"></span>
+                        <span>7 MIN READ</span>
+                    </div>
+                    <h3 class="font-brutal text-2xl md:text-3xl group-hover:text-brand-red transition-colors line-clamp-2">Perfecting Your Form: The Ultimate Deadlift Guide</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 bg-brand-red flex flex-col items-center justify-center text-center">
+        <h2 class="font-brutal text-clamp-h2 text-brand-black mb-6 w-full max-w-4xl">
+            READY TO TRANSFORM YOUR LIFE?
+        </h2>
+        <p class="font-manrope text-lg md:text-xl text-brand-black/80 font-semibold max-w-2xl mb-12">
+            The only workout you’ll ever regret is the one you didn't do. Join ZONIXX today and lock in our exclusive new-member rate.
+        </p>
+        <button class="bg-brand-black text-brand-white font-brutal text-2xl md:text-4xl px-12 py-6 uppercase hover:bg-brand-white hover:text-brand-black transition-all duration-300 transform hover:-translate-y-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)]">
+            Claim 7-Day Free Pass
+        </button>
+        <p class="font-manrope text-brand-black font-bold mt-6 text-sm uppercase tracking-widest">* No credit card required. Cancel anytime. *</p>
+    </section>
+
+    <footer class="bg-brand-black pt-24 pb-8 px-6 md:px-12 border-t border-zinc-900">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            <div class="lg:col-span-2">
+                <h4 class="font-brutal text-2xl md:text-3xl mb-4 text-brand-white">JOIN THE NEWSLETTER</h4>
+                <p class="font-manrope text-gray-400 mb-6 max-w-sm text-sm md:text-base">Get the latest tips, workouts, and nutritional advice from our experts directly to your inbox.</p>
+                <div class="flex w-full max-w-md">
+                    <input type="email" placeholder="EMAIL ADDRESS" class="bg-zinc-900 text-white font-manrope px-4 py-3 outline-none focus:border-brand-red border border-zinc-800 w-full text-sm">
+                    <button class="bg-brand-red font-brutal text-lg px-6 hover:bg-white hover:text-black transition-colors">SUBMIT</button>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-brutal text-xl md:text-2xl mb-6 text-brand-white">QUICK LINKS</h4>
+                <ul class="font-manrope text-gray-400 space-y-3 font-bold uppercase text-xs md:text-sm tracking-wider">
+                    <li><a href="#" class="hover:text-brand-red transition-colors">Home</a></li>
+                    <li><a href="#training" class="hover:text-brand-red transition-colors">Classes & Schedules</a></li>
+                    <li><a href="#coaches" class="hover:text-brand-red transition-colors">Meet the Coaches</a></li>
+                    <li><a href="#blog" class="hover:text-brand-red transition-colors">Blog</a></li>
+                    <li><a href="#" class="hover:text-brand-red transition-colors">Membership Pricing</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-brutal text-xl md:text-2xl mb-6 text-brand-white">CONTACT</h4>
+                <ul class="font-manrope text-gray-400 space-y-3 text-xs md:text-sm">
+                    <li>123 Iron Street, Fitness City, ST 12345</li>
+                    <li>(555) 123-4567</li>
+                    <li>info@zonixx.com</li>
+                    <li class="text-brand-red font-bold mt-4 uppercase tracking-widest">Open 24/7 for Members</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="w-full flex justify-center border-t border-zinc-900 pt-8 mb-8">
+            <h1 class="font-brutal text-[15vw] leading-[0.8] text-zinc-900 select-none text-center w-full">ZONIXX</h1>
+        </div>
+        
+        <div class="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 font-manrope text-[10px] md:text-xs text-zinc-600 uppercase font-bold tracking-widest">
+            <p>&copy; 2026 ZONIXX. ALL RIGHTS RESERVED. | <a href="#" class="hover:text-zinc-400">PRIVACY</a> | <a href="#" class="hover:text-zinc-400">TERMS</a></p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white transition-colors">INSTAGRAM</a>
+                <a href="#" class="hover:text-white transition-colors">FACEBOOK</a>
+                <a href="#" class="hover:text-white transition-colors">YOUTUBE</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Snappier Lenis config
+        const lenis = new Lenis({
+            lerp: 0.15, // Higher lerp = faster/snappier feeling
+            smoothWheel: true,
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            touchMultiplier: 2
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 1. Snappy Hero Text Reveal
+            const heroTimeline = gsap.timeline();
+            heroTimeline.to(".hero-text", {
+                y: "0%",
+                duration: 0.8, // Faster duration
+                stagger: 0.15,
+                ease: "power3.out",
+                delay: 0.2
+            })
+            .to(".gsap-fade-up", {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out"
+            }, "-=0.5");
+
+            // Hero Parallax (subtle)
+            gsap.to("#hero-bg", {
+                yPercent: 15, // Reduced movement for tighter feel
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "section", 
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // 2. Fast Scroll Triggered Text Reveals (h2 headings)
+            const scrollTexts = document.querySelectorAll(".scroll-text");
+            scrollTexts.forEach(text => {
+                gsap.to(text, {
+                    y: "0%",
+                    duration: 0.7, // Snappy reveal
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: text.closest('h2'),
+                        start: "top 90%", // Trigger slightly earlier
+                    }
+                });
+            });
+
+            // 3. About Image Parallax
+            gsap.to("#about-img", {
+                y: "10%", // Tighter parallax
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // 4. Snappy Fade Up Elements
+            const fadeElements = document.querySelectorAll(".trigger-fade");
+            fadeElements.forEach((el) => {
+                gsap.set(el, { y: 30, opacity: 0 }); // Less travel distance
+                
+                gsap.to(el, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6, // Faster duration
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 90%", 
+                    }
+                });
+            });
+
+            // Sync Lenis and GSAP
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+            gsap.ticker.lagSmoothing(0);
+        });
+    </script>
+</body>
+</html>
