@@ -80,13 +80,14 @@
 
         /* Cinematic Image Filters */
         .cinematic-img {
-            filter: brightness(0.88) contrast(1.08);
+            filter: brightness(0.92) contrast(1.1) saturate(1.08);
             transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .cinematic-hover:hover .cinematic-img {
-            filter: brightness(1.02) contrast(1.12);
-            transform: scale(1.05);
+        .cinematic-hover:hover .cinematic-img,
+        .group:hover .cinematic-img {
+            filter: brightness(1.05) contrast(1.15) saturate(1.15);
+            transform: scale(1.04);
         }
 
         .coach-img {
@@ -372,14 +373,19 @@
                 <h2 class="font-brutal text-clamp-h2">
                     FUEL YOUR <br><span class="text-outline-white">MIND & BODY</span>
                 </h2>
-                <a href="#" class="font-brutal text-xl text-brand-red hover:text-brand-white transition-colors border-b border-brand-red pb-1">VIEW ALL ARTICLES</a>
+                <div class="flex flex-col items-start md:items-end gap-4 max-w-md">
+                    <p class="font-manrope text-gray-400 text-sm md:text-base leading-relaxed text-left md:text-right">
+                        Whether you want to build strength, burn fat, or improve your mobility, we have a program designed for your exact goals.
+                    </p>
+                    <a href="#" class="font-brutal text-lg text-brand-red hover:text-brand-white transition-colors border-b border-brand-red pb-1">VIEW ALL ARTICLES</a>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Blog Card 1 -->
                 <a href="#" class="group trigger-fade block">
                     <div class="aspect-video img-wrapper mb-6">
-                        <img src="./images/blog-nutrition-cinematic.jpg" class="w-full h-full object-cover cinematic-img" alt="Nutrition - 5 Pre-Workout Meals">
+                        <img src="./images/blog-nutrition-graded.jpg" class="w-full h-full object-cover cinematic-img" alt="Nutrition - 5 Pre-Workout Meals">
                     </div>
                     <div class="flex items-center gap-4 text-xs font-brutal text-gray-500 mb-3 tracking-widest">
                         <span>NUTRITION</span>
@@ -392,7 +398,7 @@
                 <!-- Blog Card 2 -->
                 <a href="#" class="group trigger-fade block">
                     <div class="aspect-video img-wrapper mb-6">
-                        <img src="./images/blog-recovery-cinematic.jpg" class="w-full h-full object-cover cinematic-img" alt="Recovery - Why Rest Days are Critical">
+                        <img src="./images/blog-recovery-graded.jpg" class="w-full h-full object-cover cinematic-img" alt="Recovery - Why Rest Days are Critical">
                     </div>
                     <div class="flex items-center gap-4 text-xs font-brutal text-gray-500 mb-3 tracking-widest">
                         <span>RECOVERY</span>
@@ -405,12 +411,12 @@
                 <!-- Blog Card 3 -->
                 <a href="#" class="group trigger-fade block">
                     <div class="aspect-video img-wrapper mb-6">
-                        <img src="./images/blog-deadlift-cinematic.jpg" class="w-full h-full object-cover cinematic-img" alt="Training - Ultimate Deadlift Guide">
+                        <img src="./images/blog-deadlift-graded.jpg" class="w-full h-full object-cover cinematic-img" alt="Training - Ultimate Deadlift Guide">
                     </div>
                     <div class="flex items-center gap-4 text-xs font-brutal text-gray-500 mb-3 tracking-widest">
                         <span>TRAINING</span>
                         <span class="w-1 h-1 bg-brand-red rounded-full"></span>
-                        <span>7 MIN READ</span>
+                        <span>5 MIN READ</span>
                     </div>
                     <h3 class="font-brutal text-2xl md:text-3xl group-hover:text-brand-red transition-colors line-clamp-2">Perfecting Your Form: The Ultimate Deadlift Guide</h3>
                 </a>
