@@ -90,13 +90,13 @@
         }
 
         .coach-img {
-            filter: grayscale(100%) contrast(1.2) brightness(0.8);
-            transition: all 0.5s ease;
+            filter: brightness(0.96) contrast(1.06);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
         }
         
         .coach-card:hover .coach-img {
-            filter: grayscale(0%) sepia(50%) hue-rotate(-30deg) saturate(300%) contrast(1.1) brightness(0.9);
-            transform: scale(1.02);
+            filter: brightness(1.05) contrast(1.1);
+            transform: scale(1.04);
         }
 
         /* Marquee Animation */
@@ -241,8 +241,8 @@
                 <!-- Coach 1 -->
                 <div class="coach-card group flex flex-col gap-4 trigger-fade">
                     <div class="aspect-[4/5] img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1567598508481-65985588ce2a?q=80&w=1374&auto=format&fit=crop" 
-                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Coach">
+                        <img src="./images/coach-marcus.jpg" 
+                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Marcus T. - Head of Strength">
                     </div>
                     <div>
                         <h3 class="font-brutal text-3xl md:text-4xl">MARCUS T.</h3>
@@ -254,8 +254,8 @@
                 <!-- Coach 2 -->
                 <div class="coach-card group flex flex-col gap-4 trigger-fade">
                     <div class="aspect-[4/5] img-wrapper md:mt-12">
-                        <img src="https://images.unsplash.com/photo-1611506109968-356bc0a41d7d?q=80&w=1374&auto=format&fit=crop" 
-                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Coach">
+                        <img src="./images/coach-sarah.jpg" 
+                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Sarah L. - Lead HIIT Instructor">
                     </div>
                     <div>
                         <h3 class="font-brutal text-3xl md:text-4xl">SARAH L.</h3>
@@ -267,8 +267,8 @@
                 <!-- Coach 3 -->
                 <div class="coach-card group flex flex-col gap-4 trigger-fade">
                     <div class="aspect-[4/5] img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1583468982228-19f19164aee2?q=80&w=1351&auto=format&fit=crop" 
-                             class="w-full h-full object-cover coach-img absolute inset-0" alt="Coach">
+                        <img src="./images/coach-david.jpg" 
+                             class="w-full h-full object-cover coach-img absolute inset-0" alt="David C. - Mobility Specialist">
                     </div>
                     <div>
                         <h3 class="font-brutal text-3xl md:text-4xl">DAVID C.</h3>
