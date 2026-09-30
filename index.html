@@ -140,6 +140,7 @@
         <div class="hidden md:flex gap-8 font-manrope font-bold text-xs tracking-[0.2em] uppercase pointer-events-auto">
             <a href="#training" class="hover:text-brand-red transition-colors">Training</a>
             <a href="#coaches" class="hover:text-brand-red transition-colors">Coaches</a>
+            <a href="#transformations" class="hover:text-brand-red transition-colors">Results</a>
             <a href="#about" class="hover:text-brand-red transition-colors">About</a>
             <a href="#blog" class="hover:text-brand-red transition-colors">Blog</a>
         </div>
@@ -410,6 +411,188 @@
         </div>
     </section>
 
+    <!-- Real Transformations Before/After Section -->
+    <section id="transformations" class="py-24 md:py-32 px-6 md:px-12 bg-brand-black border-t border-zinc-900 relative">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-16">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="inline-block w-2.5 h-2.5 bg-brand-red"></span>
+                        <span class="font-manrope text-xs font-bold tracking-[0.25em] text-brand-red uppercase">Real Member Evidence</span>
+                    </div>
+                    <h2 class="font-brutal text-clamp-h2 leading-none">
+                        THE ARCHITECTURE OF <br><span class="text-outline-white hover:text-brand-red transition-colors">TRANSFORMATION</span>
+                    </h2>
+                </div>
+                <p class="font-manrope text-gray-400 text-sm md:text-base max-w-md leading-relaxed">
+                    Zero shortcuts. No synthetic promises. Real people conquering metabolic hurdles through progressive strength programming, metabolic conditioning, and unrelenting coaching.
+                </p>
+            </div>
+
+            <!-- Main Interactive Case Study Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                
+                <!-- Left: Interactive Before/After Split Screen Slider (7 cols) -->
+                <div class="lg:col-span-7 flex flex-col gap-4">
+                    <div 
+                        id="comparison-container" 
+                        class="relative w-full aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] max-h-[700px] overflow-hidden bg-zinc-950 border border-zinc-800 shadow-2xl select-none touch-none group cursor-ew-resize"
+                        style="--slider-pos: 50%;"
+                    >
+                        <!-- Layer 1: AFTER (Bottom) -->
+                        <img 
+                            src="./images/transformation-after.jpg" 
+                            alt="After Transformation - Matthew Riggs Lean & Fit" 
+                            class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none"
+                        >
+                        <!-- After Badge -->
+                        <div class="absolute bottom-6 right-6 z-10 bg-brand-black/90 backdrop-blur border border-zinc-700 px-4 py-2 pointer-events-none">
+                            <span class="font-brutal text-xs md:text-sm text-brand-red tracking-wider">AFTER • 82 KG (180 LBS)</span>
+                            <span class="block font-manrope text-[10px] text-gray-400 uppercase tracking-widest">11% Body Fat • 9 Months</span>
+                        </div>
+
+                        <!-- Layer 2: BEFORE (Top, Clipped) -->
+                        <div 
+                            class="absolute inset-0 w-full h-full pointer-events-none"
+                            style="clip-path: polygon(0 0, var(--slider-pos) 0, var(--slider-pos) 100%, 0 100%);"
+                        >
+                            <img 
+                                src="./images/transformation-before.jpg" 
+                                alt="Before Transformation - Matthew Riggs Overweight" 
+                                class="w-full h-full object-cover object-top pointer-events-none"
+                            >
+                            <!-- Before Badge -->
+                            <div class="absolute bottom-6 left-6 z-10 bg-brand-black/90 backdrop-blur border border-brand-red/60 px-4 py-2 pointer-events-none">
+                                <span class="font-brutal text-xs md:text-sm text-brand-white tracking-wider">BEFORE • 135 KG (297 LBS)</span>
+                                <span class="block font-manrope text-[10px] text-brand-red uppercase tracking-widest">39% Body Fat • Day 01</span>
+                            </div>
+                        </div>
+
+                        <!-- Center Divider Line & Handle -->
+                        <div 
+                            class="absolute top-0 bottom-0 pointer-events-none z-20 flex items-center justify-center -translate-x-1/2"
+                            style="left: var(--slider-pos);"
+                        >
+                            <div class="w-0.5 h-full bg-brand-red shadow-[0_0_15px_rgba(230,0,0,0.9)]"></div>
+                            <div class="absolute w-11 h-11 rounded-full bg-brand-black border-2 border-brand-red shadow-[0_0_20px_rgba(230,0,0,0.8)] flex items-center justify-center transition-transform group-hover:scale-110">
+                                <span class="font-brutal text-[10px] text-brand-white tracking-tighter">◄ ►</span>
+                            </div>
+                        </div>
+
+                        <!-- Invisible Native Range Slider for accessibility & drag fallback -->
+                        <input 
+                            type="range" 
+                            id="slider-range" 
+                            min="0" 
+                            max="100" 
+                            value="50" 
+                            aria-label="Before and after transformation comparison slider"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30 m-0"
+                        >
+                    </div>
+
+                    <!-- Quick View Switcher Buttons -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 font-brutal text-xs uppercase tracking-wider text-gray-400">
+                        <span>Drag slider or click view:</span>
+                        <div class="flex gap-2">
+                            <button id="btn-show-before" class="px-3 py-1.5 bg-zinc-900 border border-zinc-800 hover:border-brand-red hover:text-brand-white transition-colors cursor-pointer">Show Before</button>
+                            <button id="btn-show-split" class="px-3 py-1.5 bg-brand-red text-brand-white transition-colors cursor-pointer">50 / 50 Split</button>
+                            <button id="btn-show-after" class="px-3 py-1.5 bg-zinc-900 border border-zinc-800 hover:border-brand-red hover:text-brand-white transition-colors cursor-pointer">Show After</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Client Dossier & Performance Metrics (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col gap-8">
+                    <!-- Client Meta -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-2.5 py-1 bg-brand-red/10 text-brand-red border border-brand-red/30 font-brutal text-xs tracking-wider uppercase">Case Study #014</span>
+                            <span class="text-xs font-manrope text-gray-400">Verified Member</span>
+                        </div>
+                        <h3 class="font-brutal text-3xl sm:text-4xl text-brand-white mb-2">MATTHEW RIGGS</h3>
+                        <p class="font-manrope text-sm text-gray-400">34 Years Old • Senior Product Architect • Coach Marcus Vance</p>
+                    </div>
+
+                    <!-- Testimonial Quote -->
+                    <div class="relative pl-6 border-l-2 border-brand-red">
+                        <p class="font-manrope text-gray-300 text-base md:text-lg italic leading-relaxed">
+                            “I was 135 kg, suffering from constant lethargy and pre-diabetic warning signs. ZONIXX didn’t hand me a generic PDF diet. Marcus rebuilt my baseline with heavy progressive overload and metabolic work. 9 months later, I’ve shed 53 kg and gained a completely new life.”
+                        </p>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-zinc-950 p-5 border border-zinc-900">
+                            <div class="font-brutal text-3xl md:text-4xl text-brand-red mb-1">-53 KG</div>
+                            <div class="font-manrope text-xs text-gray-400 uppercase tracking-widest">Weight Dropped (-117 lbs)</div>
+                        </div>
+                        <div class="bg-zinc-950 p-5 border border-zinc-900">
+                            <div class="font-brutal text-3xl md:text-4xl text-brand-white mb-1">39% → 11%</div>
+                            <div class="font-manrope text-xs text-gray-400 uppercase tracking-widest">Body Fat Reduction</div>
+                        </div>
+                        <div class="bg-zinc-950 p-5 border border-zinc-900">
+                            <div class="font-brutal text-3xl md:text-4xl text-brand-white mb-1">210 KG</div>
+                            <div class="font-manrope text-xs text-gray-400 uppercase tracking-widest">Deadlift Record</div>
+                        </div>
+                        <div class="bg-zinc-950 p-5 border border-zinc-900">
+                            <div class="font-brutal text-3xl md:text-4xl text-brand-red mb-1">36 WEEKS</div>
+                            <div class="font-manrope text-xs text-gray-400 uppercase tracking-widest">Total Program Time</div>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div>
+                        <a href="#start" class="inline-flex items-center gap-3 bg-brand-red text-brand-white font-brutal text-lg px-8 py-4 uppercase hover:bg-brand-white hover:text-brand-black transition-all shadow-xl group">
+                            <span>Start Your Transformation</span>
+                            <span class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sub-Row: Repeatable Results Proof Cards -->
+            <div class="mt-20 pt-16 border-t border-zinc-900 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-zinc-950 p-6 border border-zinc-900 flex flex-col justify-between">
+                    <div>
+                        <div class="font-brutal text-2xl text-brand-white mb-1">DAVID K.</div>
+                        <div class="font-manrope text-xs text-brand-red uppercase tracking-wider mb-4">Strength & Conditioning • 6 Months</div>
+                        <p class="font-manrope text-sm text-gray-400 leading-relaxed mb-6">
+                            “Dropped from 112kg to 88kg while increasing back squat from 90kg to 175kg. The mentorship structure is ruthless and effective.”
+                        </p>
+                    </div>
+                    <div class="font-brutal text-xl text-brand-white pt-4 border-t border-zinc-900">-24 KG FAT / +6 KG MUSCLE</div>
+                </div>
+
+                <div class="bg-zinc-950 p-6 border border-zinc-900 flex flex-col justify-between">
+                    <div>
+                        <div class="font-brutal text-2xl text-brand-white mb-1">SARAH L.</div>
+                        <div class="font-manrope text-xs text-brand-red uppercase tracking-wider mb-4">Elite HIIT & Mobility • 4 Months</div>
+                        <p class="font-manrope text-sm text-gray-400 leading-relaxed mb-6">
+                            “Lost 18kg of postpartum weight and eliminated lower back pain completely. Sarah Chen’s programming pushed me past every mental barrier.”
+                        </p>
+                    </div>
+                    <div class="font-brutal text-xl text-brand-white pt-4 border-t border-zinc-900">-18 KG FAT / -14% BODY FAT</div>
+                </div>
+
+                <div class="bg-zinc-950 p-6 border border-zinc-900 flex flex-col justify-between">
+                    <div>
+                        <div class="font-brutal text-2xl text-brand-white mb-1">MARCUS T.</div>
+                        <div class="font-manrope text-xs text-brand-red uppercase tracking-wider mb-4">Hypertrophy & Recomp • 8 Months</div>
+                        <p class="font-manrope text-sm text-gray-400 leading-relaxed mb-6">
+                            “Transformed from skinny-fat at 31% body fat to 10% stage conditioning. The nutrition precision and intensity here cannot be matched.”
+                        </p>
+                    </div>
+                    <div class="font-brutal text-xl text-brand-white pt-4 border-t border-zinc-900">+9 KG MUSCLE / -19 KG FAT</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <section id="blog" class="py-24 md:py-32 px-6 md:px-12 bg-brand-black">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
@@ -617,6 +800,54 @@
                     }
                 });
             });
+
+            // Before/After Comparison Slider Logic
+            const comparisonContainer = document.getElementById('comparison-container');
+            const sliderRange = document.getElementById('slider-range');
+            const btnBefore = document.getElementById('btn-show-before');
+            const btnSplit = document.getElementById('btn-show-split');
+            const btnAfter = document.getElementById('btn-show-after');
+
+            if (comparisonContainer && sliderRange) {
+                const updateSlider = (val) => {
+                    val = Math.max(0, Math.min(100, val));
+                    comparisonContainer.style.setProperty('--slider-pos', `${val}%`);
+                    sliderRange.value = val;
+                    if (btnBefore && btnSplit && btnAfter) {
+                        btnBefore.className = val >= 95 ? 'px-3 py-1.5 bg-brand-red text-brand-white transition-colors cursor-pointer' : 'px-3 py-1.5 bg-zinc-900 border border-zinc-800 hover:border-brand-red hover:text-brand-white transition-colors cursor-pointer';
+                        btnSplit.className = (val > 45 && val < 55) ? 'px-3 py-1.5 bg-brand-red text-brand-white transition-colors cursor-pointer' : 'px-3 py-1.5 bg-zinc-900 border border-zinc-800 hover:border-brand-red hover:text-brand-white transition-colors cursor-pointer';
+                        btnAfter.className = val <= 5 ? 'px-3 py-1.5 bg-brand-red text-brand-white transition-colors cursor-pointer' : 'px-3 py-1.5 bg-zinc-900 border border-zinc-800 hover:border-brand-red hover:text-brand-white transition-colors cursor-pointer';
+                    }
+                };
+
+                sliderRange.addEventListener('input', (e) => {
+                    updateSlider(parseFloat(e.target.value));
+                });
+
+                // Pointer / Touch direct dragging
+                let isDragging = false;
+                const handlePointer = (clientX) => {
+                    const rect = comparisonContainer.getBoundingClientRect();
+                    const x = clientX - rect.left;
+                    const percent = (x / rect.width) * 100;
+                    updateSlider(percent);
+                };
+
+                comparisonContainer.addEventListener('pointerdown', (e) => {
+                    isDragging = true;
+                    handlePointer(e.clientX);
+                });
+                window.addEventListener('pointermove', (e) => {
+                    if (isDragging) handlePointer(e.clientX);
+                });
+                window.addEventListener('pointerup', () => { isDragging = false; });
+                window.addEventListener('pointercancel', () => { isDragging = false; });
+
+                // Quick buttons
+                if (btnBefore) btnBefore.addEventListener('click', () => updateSlider(100));
+                if (btnSplit) btnSplit.addEventListener('click', () => updateSlider(50));
+                if (btnAfter) btnAfter.addEventListener('click', () => updateSlider(0));
+            }
 
             // Sync Lenis and GSAP
             lenis.on('scroll', ScrollTrigger.update);
